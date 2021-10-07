@@ -1,5 +1,5 @@
 ﻿using DAL.Interfaces;
-using System;
+using DAL.Repositories;
 using System.Threading.Tasks;
 
 namespace DAL
@@ -7,14 +7,16 @@ namespace DAL
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ForumDbContext context;
+        private UserRepository userRepository;
+        private TopicRepository topicRepository;
 
         public UnitOfWork(ForumDbContext context)
         {
             this.context = context;
         }
-        public IUserRepository UserRepository => throw new NotImplementedException();
+        public IUserRepository UserRepository => userRepository ??= new UserRepository(context);
 
-        public ITopicRepository TopicRepository => throw new NotImplementedException();
+        public ITopicRepository TopicRepository => topicRepository ??= new TopicRepository(context);
 
         public async Task<int> SaveAsync()
         {

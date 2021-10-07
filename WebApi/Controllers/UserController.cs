@@ -1,5 +1,5 @@
-﻿using BLL.Models;
-using BLL.Services;
+﻿using BLL.Interfaces;
+using BLL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,35 +13,38 @@ namespace WebApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private UserService userService;
+        private readonly IUserService userService;
 
-        public UserController()
+        public UserController(IUserService userService)
         {
-            userService = new UserService();
+            this.userService = userService;
+        }
+        [HttpGet]
+        public ActionResult<IEnumerable<UserModel>> GetAll()
+        {
+            var result = userService.GetAll();
+            return Ok(result);
         }
 
-        //GET: /api/user/1
         [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<UserModel>>> GetById(int id)
+        public async Task<ActionResult<UserModel>> GetById(int id)
         {
-            throw new NotImplementedException();
+            var result = await userService.GetByIdAsync(id);
+            return Ok(result);
         }
 
-        //POST: /api/user/
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] UserModel userModel)
         {
             throw new NotImplementedException();
         }
 
-        //PUT: /api/user/
         [HttpPut]
         public async Task<ActionResult> Update(UserModel userModel)
         {
             throw new NotImplementedException();
         }
 
-        //DELETE: /api/user/1
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {

@@ -1,14 +1,19 @@
 ﻿using BLL.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IUserService : ICrud<UserModel>
+    public interface IUserService
     {
-        //IEnumerable<UserModel> GetByFilter(FilterSearchModel filterSearch);
+        IEnumerable<UserModel> GetAll();
+
+        Task<UserModel> GetByIdAsync(int id);
+
+        Task AddAsync(UserModel userModel);
+
+        Task UpdateAsync(UserModel userModel);
+
+        Task DeleteByIdAsync(int id);
     }
 }

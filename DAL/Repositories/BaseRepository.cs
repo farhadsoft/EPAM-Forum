@@ -8,12 +8,10 @@ namespace Data.Repositories
 {
     public abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        private readonly ForumDbContext context;
         private readonly DbSet<TEntity> dbSet;
 
         public BaseRepository(ForumDbContext context)
         {
-            this.context = context;
             dbSet = context.Set<TEntity>();
         }
 
