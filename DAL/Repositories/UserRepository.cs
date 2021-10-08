@@ -17,7 +17,7 @@ namespace DAL.Repositories
         }
         public IQueryable<User> FindAllWithDetails()
         {
-            return dbSet.Include(x => x.UsersGroup);
+            return dbSet.Include(x => x.UsersGroup).AsNoTracking();
         }
 
         public Task<User> GetByIdWithDetailsAsync(int id)

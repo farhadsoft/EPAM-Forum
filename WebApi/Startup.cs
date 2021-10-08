@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using BLL.Services;
 using BLL.Interfaces;
 using DAL.Interfaces;
-using AutoMapper;
 using BLL;
 
 namespace WebApi
@@ -33,20 +32,12 @@ namespace WebApi
             });
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "EPAM-Forum API", Version = "v1" });
             });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserService, UserService>();
-            var mapperConfig = new MapperConfiguration(config =>
-            {
-                config.AddProfile(new AutomapperProfile());
-            }
-            );
-
-            IMapper mapper = mapperConfig.CreateMapper();
-
-            services.AddSingleton(mapper);
-
+            services.AddScoped<ITopicService, TopicService>();
+            services.AddAutoMapper(typeof(AutomapperProfile));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

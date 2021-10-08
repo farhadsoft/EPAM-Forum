@@ -22,14 +22,17 @@ namespace BLL.Services
             this.mapper = mapper;
         }
 
-        public Task AddAsync(UserModel userModel)
+        public async Task AddAsync(UserModel userModel)
         {
-            throw new NotImplementedException();
+            var result = mapper.Map<User>(userModel);
+            await unitOfWork.UserRepository.AddAsync(result);
+            await unitOfWork.SaveAsync();
         }
 
-        public Task DeleteByIdAsync(int id)
+        public async Task DeleteByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            await unitOfWork.UserRepository.DeleteByIdAsync(id);
+            await unitOfWork.SaveAsync();
         }
 
         public IEnumerable<UserModel> GetAll()
@@ -44,9 +47,11 @@ namespace BLL.Services
             return mapper.Map<UserModel>(result);
         }
 
-        public Task UpdateAsync(UserModel userModel)
+        public async Task UpdateAsync(UserModel userModel)
         {
-            throw new NotImplementedException();
+            var result = mapper.Map<User>(userModel);
+            unitOfWork.UserRepository.Update(result);
+            await unitOfWork.SaveAsync();
         }
     }
 }

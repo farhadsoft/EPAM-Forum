@@ -36,7 +36,7 @@ namespace Data.Repositories
 
         public IQueryable<TEntity> FindAll()
         {
-            return dbSet;
+            return dbSet.AsNoTracking();
         }
 
         public async Task<TEntity> GetByIdAsync(int id)
