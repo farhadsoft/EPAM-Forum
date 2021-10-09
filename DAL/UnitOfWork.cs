@@ -7,14 +7,14 @@ namespace DAL
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ForumDbContext context;
-        private UserRepository userRepository;
+        //private UserRepository userRepository;
         private TopicRepository topicRepository;
 
         public UnitOfWork(ForumDbContext context)
         {
             this.context = context;
         }
-        public IUserRepository UserRepository => userRepository ??= new UserRepository(context);
+        //public IUserRepository UserRepository => userRepository ??= new UserRepository(context);
 
         public ITopicRepository TopicRepository => topicRepository ??= new TopicRepository(context);
 

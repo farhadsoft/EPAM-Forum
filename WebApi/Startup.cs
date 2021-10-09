@@ -10,6 +10,11 @@ using BLL.Services;
 using BLL.Interfaces;
 using DAL.Interfaces;
 using BLL;
+using WebApi.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApi
 {
@@ -24,18 +29,43 @@ namespace WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
 
-            services.AddControllers();
             services.AddDbContext<ForumDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options => {
+                    var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
+
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        RequireExpirationTime = false
+                    };
+                });
+
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                        .AddRoles<IdentityRole>()
+                        .AddEntityFrameworkStores<ForumDbContext>();
+
+            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EPAM-Forum API", Version = "v1" });
             });
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITopicService, TopicService>();
             services.AddAutoMapper(typeof(AutomapperProfile));
         }
@@ -53,6 +83,7 @@ namespace WebApi
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

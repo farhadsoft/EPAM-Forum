@@ -1,5 +1,6 @@
 ﻿using BLL.Interfaces;
 using BLL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -29,6 +30,14 @@ namespace WebApi.Controllers
         {
             var result = await topicService.GetByIdAsync(id);
             return Ok(result);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> Add([FromBody] TopicModel topicModel)
+        {
+            await topicService.AddAsync(topicModel);
+            return Ok();
         }
     }
 }

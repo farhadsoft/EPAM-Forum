@@ -15,11 +15,6 @@ namespace DAL.Models
 
         public DateTime CreateDate { get; set; }
 
-        [ForeignKey(nameof(User))]
-        public int GreaterId { get; set; }
-
-        public User User { get; set; }
-
         [ForeignKey(nameof(TopicsGroup))]
         public int GroupId { get; set; }
 
