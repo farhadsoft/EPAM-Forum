@@ -56,6 +56,8 @@ namespace DAL
                     Id = "e30dcf0c-373f-474f-9957-6ca8ca79cdc0",
                     UserName = "Admin",
                     NormalizedUserName = "ADMIN",
+                    Email = "admin@farhad.su",
+                    NormalizedEmail = "ADMIN@FARHAD.SU",
                     PasswordHash = hasher.HashPassword(null, "Pa$$W0rd!")
                 }
             );

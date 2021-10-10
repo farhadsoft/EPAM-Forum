@@ -39,6 +39,7 @@ namespace WebApi
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
             })
                 .AddJwtBearer(options => {
                     var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
@@ -55,8 +56,9 @@ namespace WebApi
                     };
                 });
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(o => o.SignIn.RequireConfirmedAccount = true)
                         .AddRoles<IdentityRole>()
+                        .AddDefaultTokenProviders()
                         .AddEntityFrameworkStores<ForumDbContext>();
 
             services.AddControllers();

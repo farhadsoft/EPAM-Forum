@@ -1,4 +1,5 @@
 ﻿using BLL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -17,20 +18,25 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
         private readonly JwtConfig jwtConfig;
 
         public UserController(UserManager<IdentityUser> userManager,
+                        RoleManager<IdentityRole> roleManager,
                         IOptionsMonitor<JwtConfig> optionsMonitor)
         {
             this.userManager = userManager;
+            this.roleManager = roleManager;
             jwtConfig = optionsMonitor.CurrentValue;
         }
 
         [HttpPost]
         [Route("Registration")]
+        [AllowAnonymous]
         public async Task<ActionResult> Register([FromBody] UserAddModel user)
         {
             if (ModelState.IsValid)
@@ -58,7 +64,7 @@ namespace WebApi.Controllers
                     return Ok(new UserService()
                     {
                         Success = true,
-                        Token = jwtToken
+                        Token = jwtToken.Result.ToString()
                     });
                 }
                 else
@@ -81,13 +87,14 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("Login")]
+        [AllowAnonymous]
         public async Task<ActionResult> Login([FromBody] UserLoginModel user)
         {
             if (ModelState.IsValid)
             {
                 var existingUser = await userManager.FindByEmailAsync(user.Email);
 
-                if (existingUser == null)
+                if (existingUser is null)
                 {
                     return BadRequest(new UserService()
                     {
@@ -116,7 +123,7 @@ namespace WebApi.Controllers
                 return Ok(new UserService()
                 {
                     Success = true,
-                    Token = jwtToken
+                    Token = jwtToken.Result.ToString()
                 });
             }
 
@@ -129,29 +136,85 @@ namespace WebApi.Controllers
             });
         }
 
-        private string GenerateJwtToken(IdentityUser user)
+        [HttpPost]
+        [Route("RoleChange")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> RoleChange([FromBody] RoleModel roleModel)
         {
-            var jwtTokenHandler = new JwtSecurityTokenHandler();
-
-            var key = Encoding.ASCII.GetBytes(jwtConfig.Secret);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var currentRole = await roleManager.FindByNameAsync(roleModel.Role);
+            var currentUser = await userManager.FindByEmailAsync(roleModel.Email);
+            if (currentUser is null)
             {
-                Subject = new ClaimsIdentity(new[]
+                return BadRequest(new UserService()
                 {
-                    new Claim("Id", user.Id),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                }),
-                Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    Errors = new List<string>() {
+                        "Invalid user request"
+                    },
+                    Success = false
+                });
+            }
+
+            if (currentRole is null)
+            {
+                return BadRequest(new UserService()
+                {
+                    Errors = new List<string>() {
+                        "Invalid role request"
+                    },
+                    Success = false
+                });
+            }
+
+            var isSuccess = await userManager.AddToRoleAsync(currentUser, currentRole.Name);
+
+            if (isSuccess.Succeeded)
+            {
+                return Ok();
+            }
+
+            return BadRequest(new UserService()
+            {
+                Success = false,
+                Errors = isSuccess.Errors.Select(x => x.Description).ToList()
+            });
+
+        }
+
+        private async Task<object> GenerateJwtToken(IdentityUser user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim("Id", user.Id),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            var token = jwtTokenHandler.CreateToken(tokenDescriptor);
-            var jwtToken = jwtTokenHandler.WriteToken(token);
+            var roles = await userManager.GetRolesAsync(user);
+            AddRolesToClaims(claims, roles);
 
-            return jwtToken;
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Secret));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddDays(1);
+
+            var token = new JwtSecurityToken(
+                null,
+                null,
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private static void AddRolesToClaims(List<Claim> claims, IEnumerable<string> roles)
+        {
+            foreach (var role in roles)
+            {
+                var roleClaim = new Claim(ClaimTypes.Role, role);
+                claims.Add(roleClaim);
+            }
         }
     }
 }

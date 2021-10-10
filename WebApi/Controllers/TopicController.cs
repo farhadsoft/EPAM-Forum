@@ -9,6 +9,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TopicController : ControllerBase
     {
         private readonly ITopicService topicService;
@@ -19,6 +20,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<TopicModel>> GetAll()
         {
             var result = topicService.GetAll();
@@ -26,6 +28,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<TopicModel>> GetById(int id)
         {
             var result = await topicService.GetByIdAsync(id);
@@ -38,6 +41,22 @@ namespace WebApi.Controllers
         {
             await topicService.AddAsync(topicModel);
             return Ok();
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "Administrator, Moderator")]
+        public async Task<ActionResult> Update(TopicModel topicModel)
+        {
+            await topicService.UpdateAsync(topicModel);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            await topicService.DeleteByIdAsync(id);
+            return NoContent();
         }
     }
 }
