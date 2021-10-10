@@ -12,7 +12,7 @@ namespace DAL.Models
         [Required]
         public string MessageText { get; set; }
         public DateTime CreateTime { get; set; }
-        public Guid SenderId { get; set; }
-        public Guid ReceiverId { get; set; }
+        public string Sender { get; set; }
+        public string Receiver { get; set; }
     }
 }

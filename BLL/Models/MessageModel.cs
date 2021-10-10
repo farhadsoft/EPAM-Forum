@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BLL.Models
+﻿namespace BLL.Models
 {
     public class MessageModel
     {
@@ -8,6 +6,16 @@ namespace BLL.Models
 
         public string MessageText { get; set; }
 
-        public DateTime CreateTime { get; set; }
+        public string Sender { get; set; }
+    }
+
+    public class MessageSendModel
+    {
+        public string Title { get; set; }
+
+        public string MessageText { get; set; }
+
+        public string Receiver { get; set; }
+
     }
 }

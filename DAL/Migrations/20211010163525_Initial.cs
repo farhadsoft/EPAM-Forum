@@ -55,8 +55,8 @@ namespace DAL.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MessageText = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SenderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ReceiverId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Sender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Receiver = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -189,15 +189,15 @@ namespace DAL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2299b2e1-cb84-47ca-a51f-928a49233417", "1878b37a-6c38-488c-821e-61d44ae211bd", "Administrator", "ADMINISTRATOR" },
-                    { "76704acc-fd16-44f1-841b-fd9ecc3c9029", "445e9b17-b2be-4e1f-a1f2-ddde074e7713", "Moderator", "MODERATOR" },
-                    { "fd4618be-26e6-40ee-b876-8698a5f491f6", "676cfa67-4132-462d-a3a9-8ddcab051fab", "User", "USER" }
+                    { "2299b2e1-cb84-47ca-a51f-928a49233417", "78f4d0d0-7ae7-4e91-97f3-e6d272ec3e48", "Administrator", "ADMINISTRATOR" },
+                    { "4f9f84b4-c4ab-42b5-879d-56d9031a7ab2", "2c094197-5be1-4812-abda-5a31b78adb98", "Moderator", "MODERATOR" },
+                    { "63806aa2-1c05-4423-9766-5ff157a818d9", "576d4f2a-3f5c-43b4-a76a-ffd6056e706d", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "e30dcf0c-373f-474f-9957-6ca8ca79cdc0", 0, "0936b1e0-ef79-4018-8d0a-5749286371af", "admin@farhad.su", false, false, null, "ADMIN@FARHAD.SU", "ADMIN", "AQAAAAEAACcQAAAAEJl6enbZRRHRVShEdgdB9bHq8HvKGRrxY4czD+v+tjv2q/5S2LKy7cqd3uaSxH/NYg==", null, false, "f41790a6-7b88-4f97-b8cb-314b67b52c23", false, "Admin" });
+                values: new object[] { "e30dcf0c-373f-474f-9957-6ca8ca79cdc0", 0, "bd42f6ac-4deb-4421-9743-61c957b547c1", "admin@farhad.su", false, false, null, "ADMIN@FARHAD.SU", "ADMIN", "AQAAAAEAACcQAAAAEPiGBO95a0OzsbcxPREKdxgC/IxNb0Y5/Iw6TRaQzqB3mb7bQy8BRgdkQ4bgGyqsHA==", null, false, "43d689ea-cca5-4326-b3fa-3c9d313a4083", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

@@ -6,13 +6,11 @@ namespace BLL.Interfaces
 {
     public interface IMessageService
     {
-        IEnumerable<MessageModel> GetAll();
+        IEnumerable<MessageModel> GetAll(string userEmail);
 
         Task<MessageModel> GetByIdAsync(int id);
 
-        Task AddAsync(MessageModel messageModel);
-
-        Task UpdateAsync(MessageModel messageModel);
+        Task AddAsync(MessageSendModel message, string userEmail);
 
         Task DeleteByIdAsync(int id);
     }

@@ -69,6 +69,7 @@ namespace WebApi
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ITopicService, TopicService>();
+            services.AddScoped<IMessageService, MessageService>();
             services.AddAutoMapper(typeof(AutomapperProfile));
         }
 

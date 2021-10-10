@@ -8,7 +8,7 @@ namespace DAL.Interfaces
 {
     public interface IUnitOfWork
     {
-        //IUserRepository UserRepository { get; }
+        IMessageRepository MessageRepository { get; }
 
         ITopicRepository TopicRepository { get; }
 

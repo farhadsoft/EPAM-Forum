@@ -2,6 +2,7 @@
 using BLL.Interfaces;
 using BLL.Models;
 using DAL.Interfaces;
+using DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,29 +21,35 @@ namespace BLL.Services
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
-        public Task AddAsync(MessageModel messageModel)
+        public async Task AddAsync(MessageSendModel message, string userEmail)
         {
-            throw new NotImplementedException();
+            Message newMessage = new()
+            {
+                CreateTime = DateTime.Now,
+                Title = message.Title,
+                MessageText = message.MessageText,
+                Sender = userEmail,
+                Receiver = message.Receiver
+            };
+            await unitOfWork.MessageRepository.AddAsync(newMessage);
+            await unitOfWork.SaveAsync();
         }
 
-        public Task DeleteByIdAsync(int id)
+        public IEnumerable<MessageModel> GetAll(string userEmail)
         {
-            throw new NotImplementedException();
+            var result = unitOfWork.MessageRepository.FindAll().Where(x => x.Receiver == userEmail);
+            return mapper.Map<IEnumerable<MessageModel>>(result);
         }
 
-        public IEnumerable<MessageModel> GetAll()
+        public async Task<MessageModel> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await unitOfWork.MessageRepository.GetByIdAsync(id);
+            return mapper.Map<MessageModel>(result);
         }
 
-        public Task<MessageModel> GetByIdAsync(int id)
+        public async Task DeleteByIdAsync(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(MessageModel messageModel)
-        {
-            throw new NotImplementedException();
+            await unitOfWork.MessageRepository.DeleteByIdAsync(id);
         }
     }
 }

@@ -2,8 +2,8 @@
 using DAL.Models;
 using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
@@ -14,14 +14,9 @@ namespace DAL.Repositories
         {
             dbSet = context.Set<Message>();
         }
-        public IQueryable<Message> FindAllWithDetails()
+        public IQueryable<Message> FindAllByUserId(Guid userId)
         {
             return dbSet.AsNoTracking();
-        }
-
-        public Task<Message> GetByIdWithDetailsAsync(int id)
-        {
-            return FindAllWithDetails().FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

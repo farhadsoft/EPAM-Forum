@@ -141,7 +141,6 @@ namespace WebApi.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<ActionResult> RoleChange([FromBody] RoleModel roleModel)
         {
-            var currentRole = await roleManager.FindByNameAsync(roleModel.Role);
             var currentUser = await userManager.FindByEmailAsync(roleModel.Email);
             if (currentUser is null)
             {
@@ -154,7 +153,7 @@ namespace WebApi.Controllers
                 });
             }
 
-            if (currentRole is null)
+            if (roleManager.RoleExistsAsync(roleModel.Role).Result)
             {
                 return BadRequest(new UserService()
                 {
@@ -165,7 +164,7 @@ namespace WebApi.Controllers
                 });
             }
 
-            var isSuccess = await userManager.AddToRoleAsync(currentUser, currentRole.Name);
+            var isSuccess = await userManager.AddToRoleAsync(currentUser, roleModel.Role);
 
             if (isSuccess.Succeeded)
             {

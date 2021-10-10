@@ -8,7 +8,7 @@ namespace BLL
     {
         public AutomapperProfile()
         {
-            CreateMap<MessageModel, Message>();
+            CreateMap<MessageSendModel, Message>();
             CreateMap<Message, MessageModel>();
             CreateMap<TopicModel, Topic>();
             CreateMap<Topic, TopicModel>();
