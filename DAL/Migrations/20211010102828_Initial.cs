@@ -47,18 +47,35 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TopicsGroups",
+                name: "Messages",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Moderators = table.Column<int>(type: "int", nullable: false)
+                    MessageText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SenderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ReceiverId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TopicsGroups", x => x.Id);
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Topics",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TopicText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Topics", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -167,42 +184,20 @@ namespace DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Topics",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TopicText = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    GroupId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Topics", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Topics_TopicsGroups_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "TopicsGroups",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2299b2e1-cb84-47ca-a51f-928a49233417", "36961d3e-e360-48bb-9dc8-ec4b05fa9743", "Administrator", "ADMINISTRATOR" },
-                    { "463d1f6d-9b74-4168-b23b-2ec4c9ad2749", "d59669e5-3ca0-42f1-9392-9031cbe615dd", "Moderator", "MODERATOR" },
-                    { "19649e3c-619a-4e85-9e10-8801260cf819", "79336bda-c401-4b8a-88f6-4ce5752e1b62", "User", "USER" }
+                    { "2299b2e1-cb84-47ca-a51f-928a49233417", "1878b37a-6c38-488c-821e-61d44ae211bd", "Administrator", "ADMINISTRATOR" },
+                    { "76704acc-fd16-44f1-841b-fd9ecc3c9029", "445e9b17-b2be-4e1f-a1f2-ddde074e7713", "Moderator", "MODERATOR" },
+                    { "fd4618be-26e6-40ee-b876-8698a5f491f6", "676cfa67-4132-462d-a3a9-8ddcab051fab", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "e30dcf0c-373f-474f-9957-6ca8ca79cdc0", 0, "ea208d20-bb0e-48ed-af24-405ef4b37527", null, false, false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEHSr3c+d08Q4YIk07Il78xXk2EIW+UOmI/qquxeRXILhswxpANJ+w+MpO8Abucq9og==", null, false, "43b8a8e3-ce6e-4486-bf77-c2ee920490ed", false, "Admin" });
+                values: new object[] { "e30dcf0c-373f-474f-9957-6ca8ca79cdc0", 0, "0936b1e0-ef79-4018-8d0a-5749286371af", "admin@farhad.su", false, false, null, "ADMIN@FARHAD.SU", "ADMIN", "AQAAAAEAACcQAAAAEJl6enbZRRHRVShEdgdB9bHq8HvKGRrxY4czD+v+tjv2q/5S2LKy7cqd3uaSxH/NYg==", null, false, "f41790a6-7b88-4f97-b8cb-314b67b52c23", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -247,11 +242,6 @@ namespace DAL.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Topics_GroupId",
-                table: "Topics",
-                column: "GroupId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -272,6 +262,9 @@ namespace DAL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Messages");
+
+            migrationBuilder.DropTable(
                 name: "Topics");
 
             migrationBuilder.DropTable(
@@ -279,9 +272,6 @@ namespace DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "TopicsGroups");
         }
     }
 }

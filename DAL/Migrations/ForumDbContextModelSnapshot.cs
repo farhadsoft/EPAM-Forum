@@ -19,6 +19,35 @@ namespace DAL.Migrations
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("DAL.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("MessageText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ReceiverId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("DAL.Models.Topic", b =>
                 {
                     b.Property<int>("Id")
@@ -28,9 +57,6 @@ namespace DAL.Migrations
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -42,31 +68,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GroupId");
-
                     b.ToTable("Topics");
-                });
-
-            modelBuilder.Entity("DAL.Models.TopicsGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Moderators")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TopicsGroups");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -99,21 +101,21 @@ namespace DAL.Migrations
                         new
                         {
                             Id = "2299b2e1-cb84-47ca-a51f-928a49233417",
-                            ConcurrencyStamp = "36961d3e-e360-48bb-9dc8-ec4b05fa9743",
+                            ConcurrencyStamp = "1878b37a-6c38-488c-821e-61d44ae211bd",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "463d1f6d-9b74-4168-b23b-2ec4c9ad2749",
-                            ConcurrencyStamp = "d59669e5-3ca0-42f1-9392-9031cbe615dd",
+                            Id = "76704acc-fd16-44f1-841b-fd9ecc3c9029",
+                            ConcurrencyStamp = "445e9b17-b2be-4e1f-a1f2-ddde074e7713",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         },
                         new
                         {
-                            Id = "19649e3c-619a-4e85-9e10-8801260cf819",
-                            ConcurrencyStamp = "79336bda-c401-4b8a-88f6-4ce5752e1b62",
+                            Id = "fd4618be-26e6-40ee-b876-8698a5f491f6",
+                            ConcurrencyStamp = "676cfa67-4132-462d-a3a9-8ddcab051fab",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -212,13 +214,15 @@ namespace DAL.Migrations
                         {
                             Id = "e30dcf0c-373f-474f-9957-6ca8ca79cdc0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ea208d20-bb0e-48ed-af24-405ef4b37527",
+                            ConcurrencyStamp = "0936b1e0-ef79-4018-8d0a-5749286371af",
+                            Email = "admin@farhad.su",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@FARHAD.SU",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHSr3c+d08Q4YIk07Il78xXk2EIW+UOmI/qquxeRXILhswxpANJ+w+MpO8Abucq9og==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJl6enbZRRHRVShEdgdB9bHq8HvKGRrxY4czD+v+tjv2q/5S2LKy7cqd3uaSxH/NYg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "43b8a8e3-ce6e-4486-bf77-c2ee920490ed",
+                            SecurityStamp = "f41790a6-7b88-4f97-b8cb-314b67b52c23",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -313,17 +317,6 @@ namespace DAL.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("DAL.Models.Topic", b =>
-                {
-                    b.HasOne("DAL.Models.TopicsGroup", "TopicsGroup")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TopicsGroup");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

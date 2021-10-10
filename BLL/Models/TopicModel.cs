@@ -11,9 +11,5 @@ namespace BLL.Models
         public string TopicText { get; set; }
 
         public DateTime CreateDate { get; set; }
-
-        public int GreaterId { get; set; }
-
-        public int GroupId { get; set; }
     }
 }

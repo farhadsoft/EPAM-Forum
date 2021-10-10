@@ -19,7 +19,7 @@ namespace DAL
 
         public DbSet<Topic> Topics { get; set; }
 
-        public DbSet<TopicsGroup> TopicsGroups { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

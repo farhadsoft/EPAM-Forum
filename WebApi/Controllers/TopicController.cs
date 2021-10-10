@@ -24,7 +24,7 @@ namespace WebApi.Controllers
         public ActionResult<IEnumerable<TopicModel>> GetAll()
         {
             var result = topicService.GetAll();
-            return Ok(result);
+            return result is not null ? Ok(result) : NotFound();
         }
 
         [HttpGet("{id}")]
@@ -32,7 +32,7 @@ namespace WebApi.Controllers
         public async Task<ActionResult<TopicModel>> GetById(int id)
         {
             var result = await topicService.GetByIdAsync(id);
-            return Ok(result);
+            return result is not null ? Ok(result) : NotFound();
         }
 
         [HttpPost]

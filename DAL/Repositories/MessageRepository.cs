@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    public class TopicRepository : BaseRepository<Topic>, ITopicRepository
+    public class MessageRepository : BaseRepository<Message>, IMessageRepository
     {
-        private readonly DbSet<Topic> dbSet;
-        public TopicRepository(ForumDbContext context) : base(context)
+        private readonly DbSet<Message> dbSet;
+        public MessageRepository(ForumDbContext context) : base(context)
         {
-            dbSet = context.Set<Topic>();
+            dbSet = context.Set<Message>();
         }
-        public IQueryable<Topic> FindAllWithDetails()
+        public IQueryable<Message> FindAllWithDetails()
         {
             return dbSet.AsNoTracking();
         }
 
-        public Task<Topic> GetByIdWithDetailsAsync(int id)
+        public Task<Message> GetByIdWithDetailsAsync(int id)
         {
             return FindAllWithDetails().FirstOrDefaultAsync(x => x.Id == id);
         }

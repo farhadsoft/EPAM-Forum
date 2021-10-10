@@ -2,10 +2,8 @@
 using BLL.Interfaces;
 using BLL.Models;
 using DAL.Interfaces;
-using System;
+using DAL.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BLL.Services
@@ -21,29 +19,40 @@ namespace BLL.Services
             this.mapper = mapper;
         }
 
-        public Task AddAsync(TopicModel topicModel)
+        public async Task AddAsync(TopicModel topicModel)
         {
-            throw new NotImplementedException();
+            var topic = mapper.Map<Topic>(topicModel);
+            await unitOfWork.TopicRepository.AddAsync(topic);
+            var result = await unitOfWork.SaveAsync();
         }
 
-        public Task DeleteByIdAsync(int id)
+        public async Task DeleteByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var isExist = await unitOfWork.TopicRepository.GetByIdAsync(id);
+
+            if (isExist is not null)
+            {
+                await unitOfWork.TopicRepository.DeleteByIdAsync(id);
+            }
+            
         }
 
         public IEnumerable<TopicModel> GetAll()
         {
-            throw new NotImplementedException();
+            var result = unitOfWork.TopicRepository.FindAll();
+            return mapper.Map<IEnumerable<TopicModel>>(result);
         }
 
-        public Task<TopicModel> GetByIdAsync(int id)
+        public async Task<TopicModel> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await unitOfWork.TopicRepository.GetByIdAsync(id);
+            return mapper.Map<TopicModel>(result);
         }
 
-        public Task UpdateAsync(TopicModel topicModel)
+        public async Task UpdateAsync(TopicModel topicModel)
         {
-            throw new NotImplementedException();
+            var topic = mapper.Map<Topic>(topicModel);
+            await Task.Run(() => unitOfWork.TopicRepository.Update(topic));
         }
     }
 }

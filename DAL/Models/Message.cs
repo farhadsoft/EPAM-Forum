@@ -3,15 +3,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DAL.Models
 {
-    public class Topic
+    public class Message
     {
         [Key]
         public int Id { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]
-        public string TopicText { get; set; }
-
-        public DateTime CreateDate { get; set; }
+        public string MessageText { get; set; }
+        public DateTime CreateTime { get; set; }
+        public Guid SenderId { get; set; }
+        public Guid ReceiverId { get; set; }
     }
 }
