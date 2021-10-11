@@ -1,10 +1,11 @@
 ﻿using DAL.Interfaces;
 using DAL.Repositories;
+using System;
 using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly ForumDbContext context;
         private MessageRepository messageRepository;
@@ -21,6 +22,23 @@ namespace DAL
         public async Task<int> SaveAsync()
         {
             return await context.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (context is null)
+                {
+                    context.Dispose();
+                }
+            }
         }
     }
 }

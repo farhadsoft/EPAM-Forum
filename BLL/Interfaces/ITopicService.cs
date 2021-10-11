@@ -10,7 +10,7 @@ namespace BLL.Interfaces
 
         Task<TopicModel> GetByIdAsync(int id);
 
-        Task AddAsync(TopicModel topicModel);
+        Task AddAsync(TopicAddModel topicModel);
 
         Task UpdateAsync(TopicModel topicModel);
 

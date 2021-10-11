@@ -3,6 +3,7 @@ using BLL.Interfaces;
 using BLL.Models;
 using DAL.Interfaces;
 using DAL.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,11 +20,12 @@ namespace BLL.Services
             this.mapper = mapper;
         }
 
-        public async Task AddAsync(TopicModel topicModel)
+        public async Task AddAsync(TopicAddModel topicModel)
         {
             var topic = mapper.Map<Topic>(topicModel);
+            topic.CreateDate = DateTime.Now;
             await unitOfWork.TopicRepository.AddAsync(topic);
-            var result = await unitOfWork.SaveAsync();
+            await unitOfWork.SaveAsync();
         }
 
         public async Task DeleteByIdAsync(int id)
@@ -33,6 +35,7 @@ namespace BLL.Services
             if (isExist is not null)
             {
                 await unitOfWork.TopicRepository.DeleteByIdAsync(id);
+                await unitOfWork.SaveAsync();
             }
             
         }
@@ -52,7 +55,8 @@ namespace BLL.Services
         public async Task UpdateAsync(TopicModel topicModel)
         {
             var topic = mapper.Map<Topic>(topicModel);
-            await Task.Run(() => unitOfWork.TopicRepository.Update(topic));
+            unitOfWork.TopicRepository.Update(topic);
+            await unitOfWork.SaveAsync();
         }
     }
 }

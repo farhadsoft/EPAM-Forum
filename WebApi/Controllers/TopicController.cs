@@ -37,7 +37,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> Add([FromBody] TopicModel topicModel)
+        public async Task<ActionResult> Add([FromBody] TopicAddModel topicModel)
         {
             await topicService.AddAsync(topicModel);
             return Ok();

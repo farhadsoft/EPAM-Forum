@@ -11,6 +11,7 @@ namespace BLL
             CreateMap<MessageSendModel, Message>();
             CreateMap<Message, MessageModel>();
             CreateMap<TopicModel, Topic>();
+            CreateMap<TopicAddModel, Topic>();
             CreateMap<Topic, TopicModel>();
         }
     }
