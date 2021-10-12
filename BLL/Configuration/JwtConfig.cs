@@ -1,4 +1,4 @@
-﻿namespace WebApi.Configuration
+﻿namespace BLL.Configuration
 {
     public class JwtConfig
     {

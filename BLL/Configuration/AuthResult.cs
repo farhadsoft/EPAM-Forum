@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WebApi.Configuration
+namespace BLL.Configuration
 {
     public class AuthResult
     {

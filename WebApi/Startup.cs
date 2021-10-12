@@ -10,7 +10,7 @@ using BLL.Services;
 using BLL.Interfaces;
 using DAL.Interfaces;
 using BLL;
-using WebApi.Configuration;
+using BLL.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -68,6 +68,7 @@ namespace WebApi
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ITopicService, TopicService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IMessageService, MessageService>();
             services.AddAutoMapper(typeof(AutomapperProfile));
         }

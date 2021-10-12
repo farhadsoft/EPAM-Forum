@@ -36,7 +36,8 @@ namespace WebApi.Controllers
         [Authorize]
         public async Task<ActionResult> Add([FromBody] MessageSendModel message)
         {
-            if (userManager.FindByEmailAsync(message.Receiver).Result is null)
+            var userExist = await userManager.FindByEmailAsync(message.Receiver);
+            if (userExist is null)
             {
                 return NotFound();
             }
