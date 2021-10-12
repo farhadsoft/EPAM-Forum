@@ -27,10 +27,10 @@ namespace Data.Repositories
 
         public async Task DeleteByIdAsync(int id)
         {
-            var entity = dbSet.Find(id);
+            var entity = await dbSet.FindAsync(id);
             if (entity != null)
             {
-                await Task.Run(() => Delete(entity));
+               this.Delete(entity);
             }
         }
 
