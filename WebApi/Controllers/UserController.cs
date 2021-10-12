@@ -28,7 +28,7 @@ namespace WebApi.Controllers
                 var result = await userService.RegisterAsync(user);
                 if (result.Success)
                 {
-                    return Ok(result.Errors);
+                    return Ok(result.Token);
                 }
 
                 return BadRequest(result.Errors);
@@ -49,7 +49,7 @@ namespace WebApi.Controllers
                 var result = await userService.LoginAsync(user);
                 if (result.Success)
                 {
-                    return Ok(result.Errors);
+                    return Ok(result.Token);
                 }
 
                 return BadRequest(result.Errors);

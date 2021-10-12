@@ -50,7 +50,7 @@ namespace BLL.Services
                     return new UserModel()
                     {
                         Errors = new List<string>() {
-                                "Invalid login request"
+                                "Invalid password for user"
                             },
                         Success = false
                     };
@@ -61,7 +61,7 @@ namespace BLL.Services
                 return new UserModel()
                 {
                     Success = true,
-                    Errors = new List<string>() { jwtToken.Result.ToString() },
+                    Token = jwtToken.Result.ToString()
                 };
         }
         public async Task<UserModel> RegisterAsync(UserAddModel user)
@@ -89,7 +89,7 @@ namespace BLL.Services
                 return new UserModel()
                 {
                     Success = true,
-                    Errors = new List<string>() { jwtToken.Result.ToString() }
+                    Token = jwtToken.Result.ToString()
                 };
             }
             else
@@ -136,7 +136,7 @@ namespace BLL.Services
                 {
                     Success = true,
                     Errors = new List<string>() {
-                        "Role is created"
+                        "Role is change"
                     },
                 };
             }
