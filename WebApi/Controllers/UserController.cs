@@ -153,7 +153,7 @@ namespace WebApi.Controllers
                 });
             }
 
-            if (roleManager.RoleExistsAsync(roleModel.Role).Result)
+            if (!roleManager.RoleExistsAsync(roleModel.Role).Result)
             {
                 return BadRequest(new UserService()
                 {

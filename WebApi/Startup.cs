@@ -66,9 +66,9 @@ namespace WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EPAM-Forum API", Version = "v1" });
             });
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<ITopicService, TopicService>();
-            services.AddScoped<IMessageService, MessageService>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<ITopicService, TopicService>();
+            services.AddTransient<IMessageService, MessageService>();
             services.AddAutoMapper(typeof(AutomapperProfile));
         }
 
