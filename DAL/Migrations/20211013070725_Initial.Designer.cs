@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    [Migration("20211010163525_Initial")]
+    [Migration("20211013070725_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,21 +103,21 @@ namespace DAL.Migrations
                         new
                         {
                             Id = "2299b2e1-cb84-47ca-a51f-928a49233417",
-                            ConcurrencyStamp = "78f4d0d0-7ae7-4e91-97f3-e6d272ec3e48",
+                            ConcurrencyStamp = "06a51abf-3e73-47bf-bbb0-8281c244ed9f",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "4f9f84b4-c4ab-42b5-879d-56d9031a7ab2",
-                            ConcurrencyStamp = "2c094197-5be1-4812-abda-5a31b78adb98",
+                            Id = "33e649ae-be39-46be-bd10-bffe03de80b9",
+                            ConcurrencyStamp = "f0c44aa9-67ec-4767-b2fa-42115505e6b0",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         },
                         new
                         {
-                            Id = "63806aa2-1c05-4423-9766-5ff157a818d9",
-                            ConcurrencyStamp = "576d4f2a-3f5c-43b4-a76a-ffd6056e706d",
+                            Id = "8cf45cc4-eb48-47aa-83b6-6d7cb754e5ed",
+                            ConcurrencyStamp = "018c3966-affe-438f-bcf9-e9df7e43c24c",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -216,15 +216,15 @@ namespace DAL.Migrations
                         {
                             Id = "e30dcf0c-373f-474f-9957-6ca8ca79cdc0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bd42f6ac-4deb-4421-9743-61c957b547c1",
+                            ConcurrencyStamp = "c9a4b959-1c6c-4eab-acad-455671c22b2c",
                             Email = "admin@farhad.su",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@FARHAD.SU",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPiGBO95a0OzsbcxPREKdxgC/IxNb0Y5/Iw6TRaQzqB3mb7bQy8BRgdkQ4bgGyqsHA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHsV5iGwz2VokIjbAwhZtxQSGMVlm2FImqvauDDvVfcTBtd7Xjwaa6ZLncpR8qP3SA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "43d689ea-cca5-4326-b3fa-3c9d313a4083",
+                            SecurityStamp = "48e93307-66d4-46b7-a22e-b30965e99d67",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });

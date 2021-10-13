@@ -56,12 +56,12 @@ namespace BLL.Services
                     };
                 }
 
-                var jwtToken = GenerateJwtToken(existingUser);
+                var jwtToken = await GenerateJwtToken(existingUser);
 
                 return new UserModel()
                 {
                     Success = true,
-                    Token = jwtToken.Result.ToString()
+                    Token = jwtToken.ToString()
                 };
         }
         public async Task<UserModel> RegisterAsync(UserAddModel user)
@@ -83,13 +83,13 @@ namespace BLL.Services
             var isCreated = await userManager.CreateAsync(newUser, user.Password);
             if (isCreated.Succeeded)
             {
-                var jwtToken = GenerateJwtToken(newUser);
                 await userManager.AddToRoleAsync(newUser, "USER");
+                var jwtToken = await GenerateJwtToken(newUser);
 
                 return new UserModel()
                 {
                     Success = true,
-                    Token = jwtToken.Result.ToString()
+                    Token = jwtToken.ToString()
                 };
             }
             else
