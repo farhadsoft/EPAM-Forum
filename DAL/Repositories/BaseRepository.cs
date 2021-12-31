@@ -22,7 +22,7 @@ namespace Data.Repositories
 
         public void Delete(TEntity entity)
         {
-            dbSet.RemoveRange(entity);
+            if (entity != null) dbSet.RemoveRange(entity);
         }
 
         public async Task DeleteByIdAsync(int id)
