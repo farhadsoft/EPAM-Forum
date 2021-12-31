@@ -1,5 +1,7 @@
 # Web project topic : Forum
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=farhadsoft_EPAM-Forum&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=farhadsoft_EPAM-Forum)
+
 ## Functionality
 
 Standard operations inherent in any forum - adding topics, messages for usual users. Moderation of records, working with forum users for moderators and admins.
