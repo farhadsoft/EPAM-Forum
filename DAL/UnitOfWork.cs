@@ -34,10 +34,7 @@ namespace DAL
         {
             if (disposing)
             {
-                if (context is null)
-                {
-                    context.Dispose();
-                }
+                context.Dispose();
             }
         }
     }

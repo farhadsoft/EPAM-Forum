@@ -1,6 +1,6 @@
 # Web project topic : Forum
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=farhadsoft_EPAM-Forum&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=farhadsoft_EPAM-Forum)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=farhadsoft_EPAM-Forum&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=farhadsoft_EPAM-Forum) [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=farhadsoft_EPAM-Forum&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=farhadsoft_EPAM-Forum) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=farhadsoft_EPAM-Forum&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=farhadsoft_EPAM-Forum) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=farhadsoft_EPAM-Forum&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=farhadsoft_EPAM-Forum) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=farhadsoft_EPAM-Forum&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=farhadsoft_EPAM-Forum) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=farhadsoft_EPAM-Forum&metric=bugs)](https://sonarcloud.io/summary/new_code?id=farhadsoft_EPAM-Forum)
 
 ## Functionality
 
