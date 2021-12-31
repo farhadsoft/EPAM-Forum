@@ -10,7 +10,7 @@ namespace Data.Repositories
     {
         private readonly DbSet<TEntity> dbSet;
 
-        public BaseRepository(ForumDbContext context)
+        protected BaseRepository(ForumDbContext context)
         {
             dbSet = context.Set<TEntity>();
         }
